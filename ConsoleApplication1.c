@@ -9,7 +9,7 @@ bool verifgagnant(char tableau[3][3]) {
 	{
 		if (tableau[i * 0] == tableau[i * 1] && tableau[i * 1] == tableau[i * 2] && tableau[i * 0] != ' ') {
 			printf("gagne sur la ligne %d\n", i);
-			return true;
+			return true; 
 
 		}
 

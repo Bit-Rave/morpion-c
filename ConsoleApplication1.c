@@ -4,45 +4,64 @@
 
 
 bool verifgagnant(char tableau[3][3]) {
-	//checker les lignes 
-	for (int i = 0; i < 3; i++)
-	{
-		if (tableau[i * 0] == tableau[i * 1] && tableau[i * 1] == tableau[i * 2] && tableau[i * 0] != ' ') {
-			printf("gagne sur la ligne %d\n", i);
-			return true; 
-
-		}
-
-	}
-	//checker les colones
-	for (int i = 0; i < 3; i++)
-	{
-		if (tableau[0 * i] == tableau[1 * i] && tableau[1 * i] == tableau[2 * i] && tableau[0 * i] != ' ') {
-			printf("gagne sur la colone %d\n", i);
+	// Checker les lignes 
+	for (int i = 0; i < 3; i++) {
+		if (tableau[i][0] == tableau[i][1] && tableau[i][1] == tableau[i][2] && tableau[i][0] != ' ') {
+			printf("Gagne sur la ligne %d\n", i);
 			return true;
 		}
 	}
-	// checker les diagonales 
-	if (tableau[0][0] == tableau[1][1] && tableau[1][1] == tableau[2][2] && tableau[0][0] != "") {
-		printf("gagne sur la diagonale 1");
+
+	// Checker les colonnes
+	for (int i = 0; i < 3; i++) {
+		if (tableau[0][i] == tableau[1][i] && tableau[1][i] == tableau[2][i] && tableau[0][i] != ' ') {
+			printf("Gagne sur la colonne %d\n", i);
+			return true;
+		}
+	}
+
+	// Checker les diagonales 
+	if (tableau[0][0] == tableau[1][1] && tableau[1][1] == tableau[2][2] && tableau[0][0] != ' ') {
+		printf("Gagne sur la diagonale 1\n");
 		return true;
 	}
-	if (tableau[0][2] == tableau[1][1] && tableau[1][1] == tableau[2][0] && tableau[0][2] != "") {
-		printf("gagne sur la diagonale 2");
+
+	if (tableau[0][2] == tableau[1][1] && tableau[1][1] == tableau[2][0] && tableau[0][2] != ' ') {
+		printf("Gagne sur la diagonale 2\n");
 		return true;
 	}
+
+	return false;
 }
 
 
 int afficherjeux(char table[3][3]) {
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++)
-		{
-			printf(" %c", table[i * j]);
-		}
-		printf("\n");
-	}
+	printf("y\\x  1   2   3\n");
+	printf("   /-----------\\\n");
+	printf("1. | %c | %c | %c |\n", table[0][0], table[0][1], table[0][2]);
+	printf("   |-----------|\n");
+	printf("2. | %c | %c | %c |\n", table[1][0], table[1][1], table[1][2]);
+	printf("   |-----------|\n");
+	printf("3. | %c | %c | %c |\n", table[2][0], table[2][1], table[2][2]);
+	printf("   \\-----------/\n");
+
 	return 0;
+}
+
+bool verifcorrect(int y, int x) {
+	if (y >= 1 && y <= 3) {
+		if (x >= 1 && x <= 3) {
+			return true;
+		}
+		else {
+			printf("La coordonnee X n'est pas correct");
+			return false;
+		}
+	}
+	else {
+		printf("La coordonee Y n'est pas correct");
+		return false;
+	}
 }
 
 
@@ -54,24 +73,31 @@ int main() {
 	bool correct;
 
 
-	char cadrillage[3][3];{{' ', ' ', ' '},
-							{' ', ' ', ' '},
-							{' ', ' ', ' '}};
+	char cadrillage[3][3] = {{' ', ' ', ' '}, { ' ', ' ', ' ' }, { ' ', ' ', ' ' }};
 
 	do
 	{
 		printf("Au tour du Joueur %c\n", tour);
 		do
 		{
-			printf("Entrez une coordone Y entre 1 et 3: ");
-			scanf("%d", &coordoneeY);
-
 			printf("\nEntrez une coordone X entre 1 et 3: ");
-			scanf("%d", &coordoneeX);
-			correct = true; //verifiercase(coordoneeX, coordoneeY, cadrillage);
+			scanf_s("%d", &coordoneeX);
+
+			printf("Entrez une coordone Y entre 1 et 3: ");
+			scanf_s("%d", &coordoneeY);
+
+			correct = verifcorrect(coordoneeY, coordoneeX);
 		} while (!correct);
 
+		system("clear");
+		
+		cadrillage[coordoneeY - 1][coordoneeX - 1] = tour;
 		afficherjeux(cadrillage);
+
+		gagnant = verifgagnant(cadrillage);
+		if (gagnant) {
+			printf("Joueur gagnant : %c", tour);
+		}
 
 		if (tour == 'x') {
 			tour = 'y';
@@ -79,10 +105,6 @@ int main() {
 		else {
 			tour = 'x';
 		}
-
-
-		gagnant = verifgagnant(cadrillage);
+		
 	} while (!gagnant);
-
-	printf("Joueur gagnant : %c", tour);
 }

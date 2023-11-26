@@ -7,7 +7,7 @@ bool verifgagnant(char tableau[3][3]) {
 	// Checker les lignes 
 	for (int i = 0; i < 3; i++) {
 		if (tableau[i][0] == tableau[i][1] && tableau[i][1] == tableau[i][2] && tableau[i][0] != ' ') {
-			printf("Gagne sur la ligne %d\n", i);
+			printf("Gagne sur la ligne %d\n", (i + 1));
 			return true;
 		}
 	}
@@ -15,7 +15,7 @@ bool verifgagnant(char tableau[3][3]) {
 	// Checker les colonnes
 	for (int i = 0; i < 3; i++) {
 		if (tableau[0][i] == tableau[1][i] && tableau[1][i] == tableau[2][i] && tableau[0][i] != ' ') {
-			printf("Gagne sur la colonne %d\n", i);
+			printf("Gagne sur la colonne %d\n", (i + 1));
 			return true;
 		}
 	}
@@ -48,10 +48,18 @@ int afficherjeux(char table[3][3]) {
 	return 0;
 }
 
-bool verifcorrect(int y, int x) {
+bool verifcorrect(int y, int x, char cadrillage[3][3]) {
 	if (y >= 1 && y <= 3) {
 		if (x >= 1 && x <= 3) {
-			return true;
+			if (cadrillage[y - 1][x - 1] == ' ') {
+				
+				return true;
+			}
+			else {
+				printf("La case est deja occupee !\n");
+				return false;
+			}
+
 		}
 		else {
 			printf("La coordonnee X n'est pas correct");
@@ -73,24 +81,24 @@ int main() {
 	bool correct;
 
 
-	char cadrillage[3][3] = {{' ', ' ', ' '}, { ' ', ' ', ' ' }, { ' ', ' ', ' ' }};
+	char cadrillage[3][3] = { {' ', ' ', ' '}, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
 
 	do
 	{
 		printf("Au tour du Joueur %c\n", tour);
 		do
 		{
-			printf("\nEntrez une coordone X entre 1 et 3: ");
+			printf("\nEntrez une coordone X (colone) entre 1 et 3: ");
 			scanf_s("%d", &coordoneeX);
 
-			printf("Entrez une coordone Y entre 1 et 3: ");
+			printf("Entrez une coordone Y (ligne) entre 1 et 3: ");
 			scanf_s("%d", &coordoneeY);
 
-			correct = verifcorrect(coordoneeY, coordoneeX);
+			correct = verifcorrect(coordoneeY, coordoneeX, cadrillage);
 		} while (!correct);
 
 		system("clear");
-		
+
 		cadrillage[coordoneeY - 1][coordoneeX - 1] = tour;
 		afficherjeux(cadrillage);
 
@@ -100,11 +108,11 @@ int main() {
 		}
 
 		if (tour == 'x') {
-			tour = 'y';
+			tour = 'o';
 		}
 		else {
 			tour = 'x';
 		}
-		
+
 	} while (!gagnant);
 }

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
+//test
 bool verifgagnant(char tableau[3][3]) {
 	// Checker les lignes 
 	for (int i = 0; i < 3; i++) {

@@ -83,11 +83,14 @@ int main() {
 
 	char cadrillage[3][3] = { {' ', ' ', ' '}, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
 
+	afficherjeux(cadrillage);
 	do
 	{
 		printf("Au tour du Joueur %c\n", tour);
+
 		do
 		{
+			 
 			printf("\nEntrez une coordone X (colone) entre 1 et 3: ");
 			scanf_s("%d", &coordoneeX);
 
@@ -98,9 +101,9 @@ int main() {
 		} while (!correct);
 
 		system("clear");
-
-		cadrillage[coordoneeY - 1][coordoneeX - 1] = tour;
 		afficherjeux(cadrillage);
+		cadrillage[coordoneeY - 1][coordoneeX - 1] = tour;
+		
 
 		gagnant = verifgagnant(cadrillage);
 		if (gagnant) {

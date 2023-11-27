@@ -2,7 +2,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-//test
+#define TAILLETABLEAU 21
+
+
 bool verifgagnant(char tableau[3][3]) {
 	// Checker les lignes 
 	for (int i = 0; i < 3; i++) {
@@ -52,7 +54,7 @@ bool verifcorrect(int y, int x, char cadrillage[3][3]) {
 	if (y >= 1 && y <= 3) {
 		if (x >= 1 && x <= 3) {
 			if (cadrillage[y - 1][x - 1] == ' ') {
-				
+
 				return true;
 			}
 			else {
@@ -75,22 +77,34 @@ bool verifcorrect(int y, int x, char cadrillage[3][3]) {
 
 int main() {
 	bool gagnant;
+
 	char tour = 'x';
 	int coordoneeX;
 	int coordoneeY;
 	bool correct;
 
-
 	char cadrillage[3][3] = { {' ', ' ', ' '}, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
+	int joueurActuel = 0;
+	char pseudos[2][TAILLETABLEAU];
+
+
+	printf("Nom joueur x : ");
+	gets_s(pseudos[0], 20);
+	printf("Nom joueur o : ");
+	gets_s(pseudos[1], 20);
+
+
+
 
 	afficherjeux(cadrillage);
 	do
 	{
-		printf("Au tour du Joueur %c\n", tour);
+		printf("Au tour du joueur : ");
+		puts(pseudos[joueurActuel]);
 
 		do
 		{
-			 
+
 			printf("\nEntrez une coordone X (colone) entre 1 et 3: ");
 			scanf_s("%d", &coordoneeX);
 
@@ -101,21 +115,28 @@ int main() {
 		} while (!correct);
 
 		system("clear");
-		afficherjeux(cadrillage);
+
 		cadrillage[coordoneeY - 1][coordoneeX - 1] = tour;
-		
+		afficherjeux(cadrillage);
+
 
 		gagnant = verifgagnant(cadrillage);
 		if (gagnant) {
 			printf("Joueur gagnant : %c", tour);
 		}
 
-		if (tour == 'x') {
+		if (joueurActuel == 0) {
+			joueurActuel++;
 			tour = 'o';
 		}
 		else {
+			joueurActuel == 1;
+			joueurActuel--;
 			tour = 'x';
 		}
+
+
+
 
 	} while (!gagnant);
 }
